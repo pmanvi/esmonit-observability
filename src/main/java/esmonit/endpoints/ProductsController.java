@@ -2,6 +2,7 @@ package esmonit.endpoints;
 
 import esmonit.product.service.ProductDao;
 import esmonit.product.domain.Product;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class ProductsController {
         }
     }
 
+    @ApiOperation(value = "Add a product")
     @PutMapping ("/products")
     public Integer create(@RequestBody Product product){
         log.debug("Creating a product -> {} ", product);

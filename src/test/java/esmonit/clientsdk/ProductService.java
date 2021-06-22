@@ -20,7 +20,9 @@ public interface ProductService {
                              @Query("category")String category);
 
     @PUT("/products")
+    //@POST("/_products")
     Call<Integer> create(@Body Product product);
+
     @DELETE("/products/{id}")
     Call<Integer> delete(@Path("id") Integer id);
 

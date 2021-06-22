@@ -18,6 +18,8 @@ public final class FakeProductsFactory {
 
 
     private FakeProductsFactory() {
+
+        //TODO Talk about books
         database.put(BOOKS,"Head First Design Patterns");
         // Bit heavy I would say, head first does better job
         //database.put(BOOKS,"Gang Of Four Design Patterns");
@@ -26,8 +28,11 @@ public final class FakeProductsFactory {
         database.put(BOOKS,"Effective Kafka");
         database.put(BOOKS,"MicroServices Pattern");
         database.put(BOOKS,"Domain Driven Design");
-
-        // Certifications
+        database.put(BOOKS,"Designing Data-Intensive Applications");
+        /**
+         * Covers timeless concepts about design,technolgy frameworks
+         */
+        //TODO talk about certifications and their relevance
         database.put(EXAMS,"AWS Solution Architect Associated");
         database.put(EXAMS,"AWS Solution Architect Professional");
         database.put(EXAMS,"Kafka Certified  Developer");
@@ -45,11 +50,13 @@ public final class FakeProductsFactory {
             List<String> list = new ArrayList<>(database.get(type));
             String name = list.get((int) (Math.random() * list.size()));
             Product product = new Product();
-            product.setId(startCounter + 1);
-            product.setName(name + "(" + UUID.randomUUID() + ")");
+            product.setId(i+1);
+            product.setName(name); // + "(" + UUID.randomUUID() + ")");
             product.setCategory(type);
+
             products.add(product);
         }
+        //System.out.println(products);
         return products;
     }
 

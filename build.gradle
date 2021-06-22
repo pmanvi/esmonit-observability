@@ -25,7 +25,7 @@ ext {
 }
 
 dependencies {
-	// Spring Boot - Design Guidelines
+	//TODO Spring Boot - Design Guidelines
 	/**
 	 Interfaces - How you can deliver your software.
 	 Ex:REST, Swagger
@@ -39,6 +39,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation  'org.springframework.boot:spring-boot-starter-aop'
 
+	//TODO - Talk about java popular library
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -57,10 +58,13 @@ dependencies {
 	implementation group: 'io.opentracing.contrib', name: 'opentracing-spring-cloud-starter', version: '0.5.9'
 
 	// Redis client
-	//implementation group: 'org.redisson', name: 'redisson', version: '3.15.5'
+	implementation group: 'org.redisson', name: 'redisson', version: '3.15.5'
+
+	implementation group: 'io.opentracing.contrib', name: 'opentracing-mongo-driver', version: '0.1.5'
 
 	// Apparently adding this breaks without mongo service running.
-	implementation group: 'io.opentracing.contrib', name: 'opentracing-mongo-driver', version: '0.1.5'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.5.0'
 
 	// HttpClient Libraries Approach
@@ -69,7 +73,8 @@ dependencies {
 	implementation 'com.squareup.okhttp3:okhttp'
 	implementation group: 'com.squareup.okio', name: 'okio', version: '2.10.0'
 
-	// Performance Testing, Data generations, use # https://fastthread.io/ - thread analysis
+	// Performance Testing, Data generations,
+	//TODO use # https://fastthread.io/ - thread analysis with actuator output
 	implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
 
 	// Validations
@@ -102,13 +107,12 @@ dependencies {
 	 */
 	implementation group: 'io.github.resilience4j', name: 'resilience4j-reactor', version: '1.7.0'
 
-	// swagger
+	//TODO swagger
 	/**
-	 RESTful API Design Guidelines
+	 RESTful API Design Guidelines with swagger
 	 - Best Practices.
 	 */
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
-
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
 }
 

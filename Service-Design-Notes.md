@@ -4,10 +4,13 @@
 ##Package
 **_Organization by Responsibility Vs Contexts_**
 
+##Configuring logs and capturing context
+
+##Managing fault tolerance, Exceptions and design choices.
 
 
 ###Code Usage
-1. Kotlin
+1. Kotlin 
 ```Kotlin
 fun main()
 ```

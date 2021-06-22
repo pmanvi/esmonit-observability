@@ -1,16 +1,19 @@
 package esmonit;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import esmonit.security.ApiContext;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import co.elastic.apm.opentracing.ElasticApmTracer;
 import io.opentracing.Tracer;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -52,25 +56,32 @@ public class EsMonit {
 		return new ApiContext(apiKey,"praveen");
 	}
 
+	@Bean
+	public RedissonClient redisClient() {
+		return Redisson.create();
+	}
+
+	@Bean
+	public MongoClient mongoClient() {
+		return MongoClients.create();
+	}
+
+	/**
+	 * JDBC
+	 * SLOW Queries
+	 * Pass the a threshold
+	 * E.g. -Dio.opentracing.contrib.jdbc.slowQueryThresholdMs=100
+
+	 * Fast Query
+	 * Spans that complete faster than the optional excludeFastQueryThresholdMs flag will be not be reported. excludeFastQueryThresholdMs defaults to 0 which means disabled, can be enabled in two ways:
+	 *
+	 * Passing system property, E.g. -Dio.opentracing.contrib.jdbc.excludeFastQueryThresholdMs=100
+	 */
+	@Bean
+	public String getConfigDisplay() {
+		io.opentracing.contrib.jdbc.TracingDriver.setTraceEnabled(true);
+		return "done";
+	}
+
 }
 
-/**
- * Mapped Diagnostic Context (MDC) is used to enhance
- * the application logging by adding some meaningful information to log entries.
- */
-@Component
-class ContextLoggerFilter extends OncePerRequestFilter {
-	@Override
-	protected void doFilterInternal(HttpServletRequest request,
-									HttpServletResponse response,
-									FilterChain filterChain) {
-		MDC.put("apiKey", request.getHeader("apiKey"));
-		try {
-			filterChain.doFilter(request, response);
-		} catch (ServletException | IOException e) {
-			logger.error("Failed to set API Context in log from header ",e);
-		} finally {
-			MDC.remove("apiKey");
-		}
-	}
-}

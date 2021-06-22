@@ -7,10 +7,13 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -47,20 +50,23 @@ public class ProductRepository {
     /*Adding an product into database table*/
     public Integer addProduct(Integer id, String name, String category){
         String query = "insert into product values(?,?,?)";
+        log.info("Query {} ",query);
         return template.update(query,id,name,category);
     }
     public Integer create(Product product) {
-        String query = "insert into product values(?,?,?)";
-        return template.update(query,product.getId(),product.getName(),product.getCategory());
+        log.info("Creating Product {} ",product);
+        return addProduct(product.getId(),product.getName(),product.getCategory());
     }
+
+
     public Integer delete(Integer id){
         String query = "delete from product where id =?";
         return template.update(query,id);
     }
     public Long getTotalProducts() {
-        if(false) {
-            return getAllProducts().stream().filter(this::countable).count();
-            //return new Long(getAllProducts().size());
+        if(true) {
+            //return getAllProducts().stream().filter(this::countable).count();
+            return new Long(getAllProducts().size());
         }
         return template.queryForObject("select count(*) from product",Long.class);
     }

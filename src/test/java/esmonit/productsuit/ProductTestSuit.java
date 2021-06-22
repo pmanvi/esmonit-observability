@@ -8,22 +8,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import retrofit2.Call;
-
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductTestSuit {
 
     ProductService service =  EsMonitServices.product();
 
+    AtomicInteger counter = new AtomicInteger(1);
+
     @RepeatedTest(10)
     public void createProducts() throws IOException {
-        int initialCount = service.count().execute().body().intValue();
-        AtomicInteger counter = new AtomicInteger(initialCount);
         Product p = new Product();
         p.setId(counter.incrementAndGet());
         p.setName("Effective Kotlin ("+counter.get()+")");
@@ -37,6 +35,7 @@ public class ProductTestSuit {
     public void testCountLatency() throws IOException {
         long start = System.currentTimeMillis();
         long count = service.count().execute().body().intValue();
+        counter.incrementAndGet();
         long latency = System.currentTimeMillis() - start;
         System.out.println(count+" -> "+latency);
     }
@@ -50,15 +49,16 @@ public class ProductTestSuit {
         Long startCounter =  service.count().execute().body();
 
         FakeProductsFactory.get()
-                .someRandomProducts(startCounter.intValue())
+                .someRandomProducts(startCounter.intValue()+1)
                 .stream().map(service::create)
-                    //.parallel()
+                    .parallel()
                     .forEach(c-> {
                         try {
+                          //System.out.println("Executing"+c.request().toString());
                           Integer id = c.execute().body();
-                          System.out.println("retId = " + String.valueOf(id));
+                          assertNotNull(id);
                         }catch (IOException e) {
-
+                            fail(e);
                         }
                     });
     }

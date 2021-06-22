@@ -27,7 +27,8 @@ public class EsMonitServices {
                         .client(okHttpClient)
                         //.addCallAdapterFactory(CircuitBreakerCallAdapter.of(circuitBreaker))
                         //.addCallAdapterFactory(RateLimiterCallAdapter.of(rateLimiter))
-                        .addConverterFactory(GsonConverterFactory.create()).build();
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
                 /**
                  * Rate Limiter
                  * If the number of calls are exceeded within the period defined by the RateLimiter,
