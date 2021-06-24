@@ -1,7 +1,8 @@
-package esmonit.exceptions;
+package esmonit.endpoints.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,7 +21,7 @@ public class FaultToleranceManager extends ResponseEntityExceptionHandler {
 
     public static final String TRACE = "trace";
 
-    @Value("${reflectoring.trace:false}")
+    @Value("${errorstack.trace:true}")
     private boolean printStackTrace;
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -31,6 +32,22 @@ public class FaultToleranceManager extends ResponseEntityExceptionHandler {
         log.error("Failed to find the requested element", exception);
         return buildErrorResponse(exception, HttpStatus.NOT_FOUND, request);
     }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ErrorResponse> handleAllUncaughtException(
+            EmptyResultDataAccessException exception,
+            WebRequest request){
+        log.error("Unknown incident occurred", exception);
+        return buildErrorResponse(
+                exception,
+                "Unknown error occurred",
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request
+        );
+    }
+
+
     //TODO - catch all 500s, bad for everyone system/programmatic failure
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -34,7 +34,7 @@ public class ProductService extends ProductRepository implements ProductDao {
     @Override
     public Integer create(Product product) {
         log.info("Creating Product {} ",product);
-        trackRestTemplate();
+        //trackRestTemplate();
         int id = super.create(product);
         trackRestTemplate();
         return id;
@@ -42,12 +42,12 @@ public class ProductService extends ProductRepository implements ProductDao {
     private void trackRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         String fooResourceUrl
-                = "http://localhost:9000/products/";
+                = "http://localhost:9000/products";
         ResponseEntity<Integer> response
                 = restTemplate.getForEntity(fooResourceUrl + "/_count", Integer.class);
 
         log.info(" Response {}",response.getBody());
-        for(int i=1; i< 4; i++) {
+        for(int i=0; i< 2; i++) {
             ResponseEntity<Product> res = restTemplate.getForEntity(fooResourceUrl+"/"+(i+1), Product.class);
             log.info("Product = {} ",res.getBody());
         }

@@ -1,4 +1,4 @@
-package esmonit.exceptions;
+package esmonit.endpoints.exceptions;
 
 import esmonit.product.domain.Product;
 

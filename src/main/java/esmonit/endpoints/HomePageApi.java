@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-public class HomePageController {
+public class HomePageApi {
 
     @Autowired
     JdbcTemplate template;

@@ -35,7 +35,7 @@ public class ProductTestSuit {
     public void testCountLatency() throws IOException {
         long start = System.currentTimeMillis();
         long count = service.count().execute().body().intValue();
-        counter.incrementAndGet();
+        counter.set((int)count);
         long latency = System.currentTimeMillis() - start;
         System.out.println(count+" -> "+latency);
     }

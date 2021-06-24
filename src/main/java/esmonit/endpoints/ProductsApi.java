@@ -1,5 +1,6 @@
 package esmonit.endpoints;
 
+import esmonit.endpoints.exceptions.FaultToleranceManager;
 import esmonit.product.service.ProductDao;
 import esmonit.product.domain.Product;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-public class ProductsController {
+public class ProductsApi {
     @Autowired
     ProductDao productsRepo;
 
