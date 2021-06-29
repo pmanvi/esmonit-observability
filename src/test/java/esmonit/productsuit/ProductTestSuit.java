@@ -41,8 +41,9 @@ public class ProductTestSuit {
     }
 
     @Test
-    public void testMonit() {
-
+    public void testGetProduct() throws IOException {
+        Product product =  service.getProduct(1).execute().body();
+        System.out.println("product = " + product);
     }
     @Test
     public void testBulkInserts() throws IOException {

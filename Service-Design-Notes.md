@@ -89,7 +89,7 @@ Warning to warn that something didn't happen as expected but the system can stil
 The error will be used to indicate that the system can't work.
 Pay close attention the log messages from kibana, messages should result in some actions OR provide some insights else they are not worth it.Reviewing the logs should lead to the cause of any errors that may have occurred. The logs should be easy to navigate without having to filter through irrelevant information adding logs for developer unit testing should be avoided. (loops, method entry/exit etc...)
 
-Following examples are explained with rationale and example to help make informed decisions.
+Following examples are explained with rationale and taskmanager to help make informed decisions.
 level (targeted audience)
 
 log.debug (support, enable optionally from users for diagnosing operational issues)

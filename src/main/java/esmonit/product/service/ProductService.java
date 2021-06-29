@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClient;
 import esmonit.product.dao.ProductRepository;
 import esmonit.product.domain.Product;
 import esmonit.product.domain.ProductType;
+import io.opentracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.redisson.executor.RedissonClassLoader;
@@ -24,10 +25,11 @@ public class ProductService extends ProductRepository implements ProductDao {
     private RedissonClient redisClient;
     @Autowired
     private MongoClient mongoClient;
+    @Autowired
+    Tracer tracer;
 
     public ProductType getProductType(int productId) {
         // Lengthy algorithm to cacludate one.
-
         return ProductType.Premium;
     }
 
@@ -36,7 +38,11 @@ public class ProductService extends ProductRepository implements ProductDao {
         log.info("Creating Product {} ",product);
         //trackRestTemplate();
         int id = super.create(product);
-        trackRestTemplate();
+        try {
+            //trackRestTemplate();
+        }catch (Exception e) {
+            log.error("Eating up track resttemplate",e);
+        }
         return id;
     }
     private void trackRestTemplate() {
@@ -47,7 +53,7 @@ public class ProductService extends ProductRepository implements ProductDao {
                 = restTemplate.getForEntity(fooResourceUrl + "/_count", Integer.class);
 
         log.info(" Response {}",response.getBody());
-        for(int i=0; i< 2; i++) {
+        for(int i=0; i< 10; i++) {
             ResponseEntity<Product> res = restTemplate.getForEntity(fooResourceUrl+"/"+(i+1), Product.class);
             log.info("Product = {} ",res.getBody());
         }

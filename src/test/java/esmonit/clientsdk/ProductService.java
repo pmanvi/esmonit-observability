@@ -2,7 +2,6 @@ package esmonit.clientsdk;
 
 import esmonit.product.domain.Product;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -20,7 +19,6 @@ public interface ProductService {
                              @Query("category")String category);
 
     @PUT("/products")
-    //@POST("/_products")
     Call<Integer> create(@Body Product product);
 
     @DELETE("/products/{id}")

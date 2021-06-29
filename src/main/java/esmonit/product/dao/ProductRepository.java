@@ -64,7 +64,7 @@ public class ProductRepository {
         return template.update(query,id);
     }
     public Long getTotalProducts() {
-        if(true) {
+        if(false) {
             //return getAllProducts().stream().filter(this::countable).count();
             return new Long(getAllProducts().size());
         }

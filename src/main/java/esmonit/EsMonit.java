@@ -30,18 +30,21 @@ import java.util.UUID;
 @SpringBootApplication
 @Configuration
 @Slf4j
+//@org.springframework.cloud.netflix.eureka.EnableEurekaClient
 public class EsMonit {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EsMonit.class, args);
 	}
 
+
+	// TODO : ✅
 	@Bean public Tracer tracer() {
 		return new ElasticApmTracer();
 	}
 	/**
 	 * -Dio.opentracing.contrib.jdbc.slowQueryThresholdMs=10
-	 * -javaagent:/Users/pmanvi/AOS/aos-tenant-onboard/build/libs/elastic-apm-agent-1.22.0.jar
+	 * -javaagent:/Users/pmanvi/IdeaProjects/esmonit-observability/elastic-apm-agent-1.24.0.jar
 	 * -Delastic.apm.service_name=EsMonit
 	 * -Delastic.apm.urls=http://localhost:8200
 	 * -Delastic.apm.secret_token=

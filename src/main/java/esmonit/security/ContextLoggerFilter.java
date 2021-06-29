@@ -23,18 +23,20 @@ public class ContextLoggerFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) {
-        String token = request.getHeader("_token");
-        log.info("Token :  ", token);
+        String token = request.getHeader("Authorization");
+        log.info("Token : {} ", token);
         // validate token, extract apiKey
         String apiKey = "1232";
         MDC.put("apiKey", apiKey);
         ApiContext context = new ApiContext(apiKey,"praveen");
-        new ThreadLocal().set(context);
         try {
-            filterChain.doFilter(request, response);
+              filterChain.doFilter(request, response);
         } catch (ServletException | IOException e) {
             logger.error("Failed to set API Context in log from header ", e);
-        } finally {
+        } catch (Exception catchAll){
+            logger.error(catchAll);
+        }
+        finally {
             MDC.remove("apiKey");
         }
     }

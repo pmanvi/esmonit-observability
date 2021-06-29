@@ -13,4 +13,7 @@ https://www.martinfowler.com/bliki/ParallelChange.html
 ###Domain Driven Design
 >Domain is an area of knowledge or activity; somebody is responsible and owns it
 - Bounded Context
--
+- 
+###Trasnactions with cross services
+* 2 phase commit
+* Saga pattern [![video])](https://www.youtube.com/watch?v=YPbGW3Fnmbc)
